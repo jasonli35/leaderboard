@@ -30,6 +30,10 @@ class Sessions:
     print("session id:")
     print(session_id)
     return self.db.read(session_id)
+  
+  def get_session_id(self, request:Request):
+    return request.cookies.get("session_id")
+    
 
   def end_session(self, request:Request, response:Response) -> None:
     session_id = request.cookies.get("session_id")

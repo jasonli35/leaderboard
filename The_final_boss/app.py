@@ -50,6 +50,12 @@ def get_html() -> HTMLResponse:
 def get_html() -> HTMLResponse:
    with open("views/login.html") as html:
        return HTMLResponse(content=html.read())
+   
+#route for comment page
+@app.get("/comment", response_class=HTMLResponse)
+def get_html() -> HTMLResponse:
+   with open("views/comment.html") as html:
+       return HTMLResponse(content=html.read())
 
 
 
@@ -191,9 +197,64 @@ def get_home(request:Request) -> HTMLResponse:
   else:
     return RedirectResponse(url="/log", status_code=302)
 
+class Comment(BaseModel):
+   id: str
+   content: str
 
+  
+#request to add a comment to the database
+@app.put("/addcomment")
+def addComment(comment:Comment):
+  db =mysql.connect(user=db_user, password=db_pass, host=db_host,database=db_name)
+  cursor = db.cursor()
+  # user_id = sessions.get_session_id()
+  query = 'Insert into comment (team_id, content, owner_id) values (%s, %s, %s);'
+  values = (comment.id,comment.content,1)
+  cursor.execute(query, values)
+#Commit the changes and close the connection
+  db.commit()
+  insertID = cursor.lastrowid
+  cursor.close()
+  db.close()
+  print(insertID)
+  return insertID
+
+@app.delete("/delete_comment/{id}")
+def deleteComment(id:int):
+    db =mysql.connect(user=db_user, password=db_pass, host=db_host,database=db_name)
+    cursor = db.cursor()
+    query ="DELETE FROM comment where id = '%s'"
+    values=(id,)
+    cursor.execute(query,values)
+    db.commit()
+    cursor.close()
+    db.close()
+
+@app.get("/all-comments")
+def getAllComments():
+    db =mysql.connect(user=db_user, password=db_pass, host=db_host,database=db_name)
+    cursor = db.cursor()
+    query="SELECT team_id, content FROM comment"
+    cursor.execute(query)
+    datas = cursor.fetchall()
+    cursor.close()
+    db.close()
+    response = {}
+    for index, row in enumerate(datas):
+       response[index] = {
+           "team_id": row[0],
+           "content": row[1],
+
+       }
+    return JSONResponse(response)
+   
+  
+
+   
+
+#port = 6543
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="0.0.0.0", port=6543, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
 
 
 

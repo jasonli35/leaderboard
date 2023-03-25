@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>profile page</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+
+    <link rel='stylesheet' type='text/css' href='public/postlog.css'>
+    <script src="public/comment.js" defer></script>
+  </head>
+  <body>
+
+    <div class="topnav">
+  
+      <a href="/comment">comment</a>
+      <a href="/leaderboard">leaderboard</a>
+      <a href="/home">Setting</a>
+      <a href="/mvp">MVP</a>
+      <a class='logout_button' href="/"> Logout </a>
+    </div>
+
+    <h1>Commenting System</h1>
+
+    <div id = "head"></div>
+
+
+<h1>add comment</h3>
+    <form id = "comment_form">
+      <label for="group_no">Enter the group no you wish to make comment on: </label>
+      <input type="number" name ="group_no" min="1" max= "26"><br>
+ 
+      <textarea id="comment_text"  rows="4" cols="50" name="new_comment" required></textarea>
+      <br>
+      <input type="submit" value="Submit">
+    </form>
+
+
+    
+
+    
+  
+
+  </body>
+</html>

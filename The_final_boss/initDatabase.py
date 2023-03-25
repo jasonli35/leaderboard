@@ -54,11 +54,13 @@ cursor.execute("drop table if exists comment;")
 try:
    cursor.execute("""
   CREATE TABLE comment (
-  team_id INT primary key,
-  session_data json not null,
-  user_id integer,
-  created_at timestamp not null default current_timestamp
+  id          integer  AUTO_INCREMENT PRIMARY KEY,
+  team_id INT,
+ content     VARCHAR(100) NOT NULL,
+  owner_id  integer
 );
  """)
 except RuntimeError as err:
    print("runtime error: {0}".format(err))
+
+
