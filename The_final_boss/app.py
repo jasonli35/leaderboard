@@ -18,7 +18,7 @@ import bcrypt
 from sessiondb import Sessions
 from typing import Optional
 
-sessions = Sessions(db.db_config, secret_key=db.session_config['session_key'], expiry=600000)
+sessions = Sessions(db.db_config, secret_key=db.session_config['session_key'], expiry=900)
 
 app = FastAPI()
 
